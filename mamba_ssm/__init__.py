@@ -1,7 +1,18 @@
 __version__ = "2.3.1"
 
-from mamba_ssm.ops.selective_scan_interface import selective_scan_fn, mamba_inner_fn
-from mamba_ssm.modules.mamba_simple import Mamba
-from mamba_ssm.modules.mamba2 import Mamba2
-from mamba_ssm.modules.mamba3 import Mamba3
-from mamba_ssm.models.mixer_seq_simple import MambaLMHeadModel
+try:
+    from mamba_ssm.ops.selective_scan_interface import selective_scan_fn, mamba_inner_fn
+    from mamba_ssm.modules.mamba_simple import Mamba
+    from mamba_ssm.modules.mamba2 import Mamba2
+    from mamba_ssm.models.mixer_seq_simple import MambaLMHeadModel
+except ImportError:
+    selective_scan_fn = None
+    mamba_inner_fn = None
+    Mamba = None
+    Mamba2 = None
+    MambaLMHeadModel = None
+
+try:
+    from mamba_ssm.modules.mamba3 import Mamba3
+except ImportError:
+    Mamba3 = None
