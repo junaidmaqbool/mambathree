@@ -13,6 +13,14 @@ from einops import rearrange, repeat
 
 import triton
 import triton.language as tl
+
+if not hasattr(tl, 'make_tensor_descriptor'):
+    raise ImportError(
+        f"Triton {triton.__version__} does not have tl.make_tensor_descriptor. "
+        "Mamba3 SISO kernels require triton >= 3.1.0. "
+        "Fix: pip install 'triton>=3.1.0'"
+    )
+
 from mamba_ssm.ops.triton.mamba3.utils import cos_approx, sin_approx, tanh_approx, silu, sigmoid_approx
 
 @triton.autotune(
